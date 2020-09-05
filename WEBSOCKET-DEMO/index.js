@@ -32,7 +32,7 @@ function sendEvery5seconds(){
     setTimeout(sendEvery5seconds, 5000);
 }
 
-// This code will go in the chrome console - add breakpoints before debugging (mainly on onmessage)
+// This (client code) code will go in the chrome console - add breakpoints before debugging (mainly on onmessage)
 
 // let ws = new WebSocket("ws://localhost:8080")
 // ws.onmessage = message => console.log(`We received a message from server ${message.data}`)
