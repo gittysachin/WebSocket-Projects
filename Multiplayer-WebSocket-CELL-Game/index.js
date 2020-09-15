@@ -10,6 +10,7 @@ httpServer.listen(9090, () => console.log("Listening... on 9090"));
 
 // hashmap
 const clients = {};
+const games = {};
 
 const wsServer = new websocketserver({
     "httpServer": httpServer
@@ -23,7 +24,25 @@ wsServer.on("request", request => {
     connection.on("message", message => {
         const result = JSON.parse(message.utf8Data); // this will fail if clients are not sending message as JSON 😊
         // I have recieved a message from the client
-        console.log(result);
+        console.log(result)
+        
+        // a user want to create a new game 
+        if(result.method === "create") {
+            const clientId = result.clientId;
+            const gameId = guid();
+            games[gameId] = {
+                "id": gameId,
+                "balls": 20
+            }
+
+            const payLoad = {
+                "method": "create",
+                "game": games[gameId]
+            }
+
+            const con = clients[clientId].connection;
+            con.send(JSON.stringify(payLoad));
+        }
     });
 
     // generate a new clientId

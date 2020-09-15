@@ -7,16 +7,36 @@
 </head>
 <body>
     <h1>Cell Game</h1>
+    <button id="btnCreate">New Game</button>
     <script>
+        // HTML Elements
         let clientId = null;
         let ws = new WebSocket("ws://localhost:9090");
+        const btnCreate = document.getElementById("btnCreate");
+        
+        // wiring events
+        btnCreate.addEventListener("click", e => {
+            const payLoad = {
+                "method": "create",
+                "clientId": clientId
+            }
+            ws.send(JSON.stringify(payLoad));
+        })
+
         ws.onmessage = message => {
             // message.data
             const response = JSON.parse(message.data);
+            
             //connect
             if(response.method === "connect") {
                 clientId = response.clientId;
                 console.log("Client id set successfully " + clientId);
+            }
+
+            // create 
+            if(response.method === "create"){
+                clientId = response.clientId;
+                console.log("Client id set successfully create with id " + response.game.id + " with " + response.game.balls + " balls");
             }
         }
     </script>
