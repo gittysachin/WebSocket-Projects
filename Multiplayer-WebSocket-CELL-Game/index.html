@@ -93,6 +93,14 @@
                     b.style.height = "150px";
                     b.addEventListener("click", e => {
                         b.style.background = playerColor;
+                        const payLoad = {
+                            "method": "play",
+                            "clientId" : clientId,
+                            "gameId": gameId,
+                            "ballId": b.tag,
+                            "color": playerColor
+                        }
+                        ws.send(JSON.stringify(payLoad));
                     });
                     divBoard.appendChild(b);
                 }

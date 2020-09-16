@@ -70,6 +70,22 @@ wsServer.on("request", request => {
                 clients[c.clientId].connection.send(JSON.stringify(payLoad));
             })
         }
+
+        // a user plays 
+        if(result.method === "play"){
+            const clientId = result.clientId;
+            const gameId = result.gameId;
+            const ballId = result.ballId;
+            const color = result.color;
+
+            const state = games[gameId].state;
+            if(!state) {
+                state = {}
+            }
+
+            state[ballId] = color;
+            games[gameId] = state;
+        }
     });
 
     // generate a new clientId
