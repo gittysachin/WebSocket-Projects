@@ -16,8 +16,8 @@ websocket.on("request", request => {
     connection.on("open", () => console.log("OPENED!!!"));
     connection.on("close", () => console.log("CLOSED!!!"));
     connection.on("message", message => {
-        
         console.log(`Received message: ${message.utf8Data}`);
+        connection.send(`got your message: ${message.utf8Data}`);
     });
     
     sendEvery5seconds();
